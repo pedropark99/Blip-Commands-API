@@ -21,7 +21,7 @@ Podemos utilizar o Commands API para servir aos nossos clientes os dados mais re
 
 ## Fluxo de dados
 
-
+![](Figuras/PowerPoint/fluxo-dados.png)
 
 
 
