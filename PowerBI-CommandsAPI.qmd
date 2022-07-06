@@ -2,7 +2,17 @@
 title: "Conectando o Power BI com o Blip Commands API"
 author: "Pedro Duarte Faria"
 format: revealjs
+execute:
+  echo: true
 ---
+
+```{python configs}
+#| include: false
+exec(open("../../botKey.py").read())
+exec(open("src/APICommands.py").read())
+```
+
+
 
 ## Objetivo
 
@@ -38,6 +48,57 @@ Adicione o seguinte código ao seu notebook do Databricks:
 ```{verbatim}
 %run /Library/APICommands
 ```
+
+Mas antes de utilizar as funções, você precisa coletar a chave de autenticação de seu bot no Blip!
+
+## Todo acesso precisa ser autenticado!
+
+Todo acesso à Commands API precisa de uma chave de autenticação! Você encontra essa chave de autenticação na página de seu bot no Blip Portal. 
+
+Basta acessar a área de "Configurações -> Informações de conexão", e, copiar o valor do quadro "Cabeçalho de autenticação".
+
+
+## Todo acesso precisa ser autenticado!
+
+![](Figuras/info-conexao.png)
+
+## Chave de autenticação
+
+Toda chave de autenticação é iniciada por `"Key "`, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me refereir a essa chave através da variável `botKey`.
+
+```{python}
+#| eval: false
+botKey = 'Key cq936dk_hxdd00_sa...'
+```
+
+
+## `get_event_track()`
+
+Essa função possui os seguintes argumentos:
+
+- `botKey`: a chave de autenticação;
+- `tracking`: o nome do tracking;
+- `startDate`: a data de início da pesquisa;
+- `endDate`: a data de fim da pesquisa;
+- `take` (**opcional**): quantidade máxima de resultados que você deseja trazer;
+- `action` (**opcional**): a action específica que você deseja pesquisar;
+
+
+## Exemplos:
+
+```{python}
+#| eval: true
+from datetime import date
+dia_pesquisa = date(2022,1,11)
+r = get_event_track(
+  botKey, tracking = "Saudacao sodexo selecao",
+  startDate = dia_pesquisa, endDate = dia_pesquisa
+)
+
+print(r)
+```
+
+
 
 
 ## Construindo uma requisição
