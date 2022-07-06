@@ -1,0 +1,32 @@
+---
+title: "Conectando o Power BI com o Blip Commands API"
+author: "Pedro Duarte Faria"
+format: revealjs
+---
+
+## Objetivo
+
+Demonstrar como podemos conectar o Power BI ao Blip Commands API.
+
+
+## O que é o Blip Commands API?
+
+É uma API do Blip que disponibiliza dados de seu contato inteligente em **tempo real**.
+
+
+## Consequência
+
+Podemos utilizar o Commands API para servir aos nossos clientes os dados mais recentes. Ou seja, não precisamos **esperar o dia seguinte para termos acesso aos dados do dia atual**.
+
+
+## Fluxo de dados
+
+
+
+
+
+
+
+
+
+
