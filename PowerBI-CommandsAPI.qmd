@@ -25,7 +25,7 @@ Podemos utilizar o Commands API para servir aos nossos clientes os dados mais re
 
 ## Temos uma biblioteca nova! 🥳
 
-Para facilitar o acesso aos dados da Commands API, duas funções foram desenvolvidas:
+Para facilitar o acesso aos dados da Commands API, duas funções foram desenvolvidas para os APIN's:
 
 - `get_event_track()`;
 - `get_attendants_report()`;
@@ -42,7 +42,7 @@ Adicione o seguinte código ao seu notebook do Databricks:
 
 ## Construindo uma requisição
 
-Para acessar os recursos de uma API, você precisa enviar uma requisição HTTP para essa API. Essa requisição é em geral composta por duas partes:
+Para acessar os recursos de uma API, você precisa enviar uma requisição HTTP para essa API. Essa requisição é em geral composta por três partes:
 
 - Body;
 - Header;
