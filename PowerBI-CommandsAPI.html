@@ -387,17 +387,60 @@
   <p class="author">Pedro Duarte Faria</p>
 </section>
 
-<section id="objetivo" class="slide level2">
-<h2>Objetivo</h2>
-<p>Demonstrar como podemos conectar o Power BI ao Blip Commands API.</p>
-</section>
 <section id="o-que-é-o-blip-commands-api" class="slide level2">
 <h2>O que é o Blip Commands API?</h2>
-<p>É uma API do Blip que disponibiliza dados de seu contato inteligente em <strong>tempo real</strong>.</p>
+<p>É uma API do Blip que disponibiliza dados de seu contato inteligente <strong>em tempo real</strong>.</p>
 </section>
 <section id="consequência" class="slide level2">
 <h2>Consequência</h2>
-<p>Podemos utilizar o Commands API para servir aos nossos clientes os dados mais recentes. Ou seja, não precisamos <strong>esperar o dia seguinte para termos acesso aos dados do dia atual</strong>.</p>
+<p>O Databricks possui a limitação de seus dados serem em D - 1. Já o Commands API <strong>não enfrenta essa limitação.</strong></p>
+</section>
+<section id="consequência-1" class="slide level2">
+<h2>Consequência</h2>
+<p>Como resultado, com o Commands API, nós não precisamos esperar o dia seguinte para termos acesso aos dados do dia atual!!!🤯🔭</p>
+</section>
+<section id="em-resumo" class="slide level2">
+<h2>Em resumo</h2>
+<p>…qual o objetivo desta apresentação?</p>
+</section>
+<section id="em-resumo-1" class="slide level2">
+<h2>Em resumo</h2>
+<p>…qual o objetivo desta apresentação?</p>
+<p><strong>Apresentar o Commands API como uma solução de dados em tempo real mais flexível e eficiente do que os relatórios personalizados do Blip.</strong></p>
+</section>
+<section id="relatórios-personalizados-do-blip" class="slide level2">
+<h2>Relatórios personalizados do Blip</h2>
+<p>Vantagens:</p>
+<ul>
+<li>Rápido e simples de se configurar;</li>
+</ul>
+<p>Desvantagens:</p>
+<ul>
+<li>Simples até demais;</li>
+<li>Não permite customização;</li>
+</ul>
+</section>
+<section id="commands-api" class="slide level2">
+<h2>Commands API</h2>
+<ul>
+<li>Permite a construção de uma <strong>solução personalizada</strong>;</li>
+<li><strong>Experiência</strong> infinitamente melhor para o cliente;</li>
+</ul>
+<p>Podemos utilizar o programa/framework de nossa preferência:</p>
+<ul>
+<li>Power BI</li>
+<li><code>{shiny}</code> e <code>{flexdashboard}</code> (R)</li>
+<li><code>{plotly}</code> e <code>{dash}</code> (Python).</li>
+</ul>
+<!-- ## Mas como eu posso fornecer esses dados? -->
+<!-- - Você pode orientar o cliente a como utilizar o Commands API; -->
+<!-- - Um Power BI que consome os dados do Commands API; -->
+<!-- - Um JOB que envia (periodicamente) os dados mais recentes do Commands API; -->
+<!-- - Os DEVs de sua célula podem te ajudar a construir um plugin do Blip que converse com o Commands API; -->
+</section>
+<section id="um-exemplo-prático-com-power-bi" class="slide level2">
+<h2>Um exemplo prático com Power BI</h2>
+<p>Como seria exatamente o fluxo de dados com o Commands API?</p>
 </section>
 <section id="fluxo-de-dados" class="slide level2">
 <h2>Fluxo de dados</h2>
@@ -405,22 +448,29 @@
 <img data-src="Figuras/PowerPoint/fluxo-dados.png" class="r-stretch"></section>
 <section id="temos-uma-biblioteca-nova" class="slide level2">
 <h2>Temos uma biblioteca nova! 🥳</h2>
-<p>Para facilitar o acesso aos dados da Commands API, duas funções foram desenvolvidas para os APIN’s:</p>
+<p>Para facilitar o uso da Commands API, duas funções foram desenvolvidas para os APIN’s:</p>
 <ul>
 <li><code>get_event_track()</code>;</li>
 <li><code>get_attendants_report()</code>;</li>
 </ul>
 </section>
+<section id="como-posso-utilizar-essas-funções" class="slide level2">
+<h2>Como posso utilizar essas funções?</h2>
+<ol type="1">
+<li>Importe essas funções;</li>
+<li>Colete a chave de autenticação de seu bot no Blip;</li>
+</ol>
+<p>E seja feliz 😎.</p>
+</section>
 <section id="importando-as-funções" class="slide level2">
 <h2>Importando as funções</h2>
-<p>Adicione o seguinte código ao seu notebook do Databricks:</p>
+<p>Para importar essas funções, adicione o seguinte código ao seu notebook do Databricks:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>%run /Library/APICommands</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Mas antes de utilizar as funções, você precisa coletar a chave de autenticação de seu bot no Blip!</p>
 </section>
 <section id="todo-acesso-precisa-ser-autenticado" class="slide level2">
 <h2>Todo acesso precisa ser autenticado!</h2>
-<p>Todo acesso à Commands API precisa de uma chave de autenticação! Você encontra essa chave de autenticação na página de seu bot no Blip Portal.</p>
-<p>Basta acessar a área de “Configurações -&gt; Informações de conexão”, e, copiar o valor do quadro “Cabeçalho de autenticação”.</p>
+<p>Você precisa da <strong>chave de autenticação de seu bot</strong> para consultar o Commands API!</p>
+<p>Acesse a área de “Configurações -&gt; Informações de conexão” na página de seu bot no Blip Portal, e, copie o valor do quadro “Cabeçalho de autenticação”.</p>
 </section>
 <section id="todo-acesso-precisa-ser-autenticado-1" class="slide level2">
 <h2>Todo acesso precisa ser autenticado!</h2>
@@ -428,7 +478,7 @@
 <img data-src="Figuras/info-conexao.png" class="r-stretch"></section>
 <section id="chave-de-autenticação" class="slide level2">
 <h2>Chave de autenticação</h2>
-<p>Toda chave de autenticação é iniciada por <code>"Key "</code>, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me refereir a essa chave através da variável <code>botKey</code>.</p>
+<p>Toda chave de autenticação é iniciada por <code>"Key "</code>, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me referir a essa chave através da variável <code>botKey</code>.</p>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>botKey <span class="op">=</span> <span class="st">'Key cq936dk_hxdd00_sa...'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="get_event_track" class="slide level2">
@@ -436,29 +486,49 @@
 <p>Essa função possui os seguintes argumentos:</p>
 <ul>
 <li><code>botKey</code>: a chave de autenticação;</li>
-<li><code>tracking</code>: o nome do tracking;</li>
+<li><code>tracking</code>: a <em>category</em> do tracking;</li>
 <li><code>startDate</code>: a data de início da pesquisa;</li>
 <li><code>endDate</code>: a data de fim da pesquisa;</li>
 <li><code>take</code> (<strong>opcional</strong>): quantidade máxima de resultados que você deseja trazer;</li>
-<li><code>action</code> (<strong>opcional</strong>): a action específica que você deseja pesquisar;</li>
+<li><code>action</code> (<strong>opcional</strong>): a <em>action</em> específica que você deseja pesquisar;</li>
 </ul>
 </section>
 <section id="exemplos" class="slide level2">
 <h2>Exemplos:</h2>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
-<span id="cb3-2"><a href="#cb3-2"></a>dia_pesquisa <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">1</span>,<span class="dv">11</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>dia_pesquisa <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>r <span class="op">=</span> get_event_track(</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  botKey, tracking <span class="op">=</span> <span class="st">"Saudacao sodexo selecao"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  startDate <span class="op">=</span> dia_pesquisa, endDate <span class="op">=</span> dia_pesquisa</span>
-<span id="cb3-6"><a href="#cb3-6"></a>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="bu">print</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a>  botKey, </span>
+<span id="cb3-5"><a href="#cb3-5"></a>  tracking <span class="op">=</span> <span class="st">"Sodexo consulta solicitacao e bloqueio selecao"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  startDate <span class="op">=</span> dia_pesquisa, endDate <span class="op">=</span> dia_pesquisa</span>
+<span id="cb3-7"><a href="#cb3-7"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="bu">print</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                storageDate                 category action  count
-0  2022-01-11T03:00:00.000Z  Saudacao sodexo selecao   CNPJ      1</code></pre>
+<pre><code>                storageDate                                        category  \
+0  2022-07-07T03:00:00.000Z  Sodexo consulta solicitacao e bloqueio selecao   
+1  2022-07-07T03:00:00.000Z  Sodexo consulta solicitacao e bloqueio selecao   
+2  2022-07-07T03:00:00.000Z  Sodexo consulta solicitacao e bloqueio selecao   
+3  2022-07-07T03:00:00.000Z  Sodexo consulta solicitacao e bloqueio selecao   
+
+                       action  count  
+0             Bloquear cartao     20  
+1  Consultar status de cartao      4  
+2            Input inesperado      2  
+3             Solicitar 2 via      8  </code></pre>
 </div>
 </div>
+</section>
+<section id="que-tipo-de-dados-você-encontra-nessa-api" class="slide level2">
+<h2>Que tipo de dados você encontra nessa API?</h2>
+<ul>
+<li><code>/event-track</code>: registros de trackings;</li>
+<li><code>/contacts</code>: dados dos usuários;</li>
+<li><code>/analytics/reports/attendants</code>: dados dos atendentes no BlipDesk;</li>
+<li><code>/analytics/reports/tickets</code>: dados dos tickets no BlipDesk;</li>
+</ul>
+<p>… você pode conferir a lista completa na <a href="https://docs.blip.ai/?http#analytics">documentação da API</a></p>
 </section>
 <section id="construindo-uma-requisição" class="slide level2">
 <h2>Construindo uma requisição</h2>

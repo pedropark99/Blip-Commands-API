@@ -14,48 +14,137 @@ exec(open("src/APICommands.py").read())
 
 
 
-## Objetivo
-
-Demonstrar como podemos conectar o Power BI ao Blip Commands API.
-
 
 ## O que é o Blip Commands API?
 
-É uma API do Blip que disponibiliza dados de seu contato inteligente em **tempo real**.
+É uma API do Blip que disponibiliza dados de seu contato inteligente **em tempo real**. 
 
 
 ## Consequência
 
-Podemos utilizar o Commands API para servir aos nossos clientes os dados mais recentes. Ou seja, não precisamos **esperar o dia seguinte para termos acesso aos dados do dia atual**.
+O Databricks possui a limitação de seus dados serem em D - 1. Já o Commands API **não enfrenta essa limitação.**
+
+
+## Consequência
+
+Como resultado, com o Commands API, nós não precisamos esperar o dia seguinte para termos acesso aos dados do dia atual!!!🤯🔭
+
+
+
+## Em resumo
+
+...qual o objetivo desta apresentação?
+
+
+## Em resumo
+
+...qual o objetivo desta apresentação?
+
+**Apresentar o Commands API como uma solução de dados em tempo real mais flexível e eficiente do que os relatórios personalizados do Blip.**
+
+
+
+
+## Relatórios personalizados do Blip
+
+Vantagens:
+
+- Rápido e simples de se configurar;
+
+Desvantagens:
+
+- Simples até demais;
+- Não permite customização;
+
+
+## Commands API
+
+- Permite a construção de uma **solução personalizada**;
+- **Experiência** infinitamente melhor para o cliente; 
+
+Podemos utilizar o programa/framework de nossa preferência: 
+
+- Power BI
+- `{shiny}` e `{flexdashboard}` (R)
+- `{plotly}` e `{dash}` (Python).
+
+<!-- ## Mas como eu posso fornecer esses dados? -->
+
+<!-- - Você pode orientar o cliente a como utilizar o Commands API; -->
+<!-- - Um Power BI que consome os dados do Commands API; -->
+<!-- - Um JOB que envia (periodicamente) os dados mais recentes do Commands API; -->
+<!-- - Os DEVs de sua célula podem te ajudar a construir um plugin do Blip que converse com o Commands API; -->
+
+
+## Um exemplo prático com Power BI
+
+Como seria exatamente o fluxo de dados com o Commands API?
 
 
 ## Fluxo de dados
 
 ![](Figuras/PowerPoint/fluxo-dados.png)
 
+
 ## Temos uma biblioteca nova! 🥳
 
-Para facilitar o acesso aos dados da Commands API, duas funções foram desenvolvidas para os APIN's:
+Para facilitar o uso da Commands API, duas funções foram desenvolvidas para os APIN's:
 
 - `get_event_track()`;
 - `get_attendants_report()`;
 
 
+
+## `get_event_track()`
+
+Essa função possui os seguintes argumentos:
+
+- `botKey`: a chave de autenticação;
+- `tracking`: a *category* do tracking;
+- `startDate`: a data de início da pesquisa;
+- `endDate`: a data de fim da pesquisa;
+- `take` (**opcional**): quantidade máxima de resultados que você deseja trazer;
+- `action` (**opcional**): a *action* específica que você deseja pesquisar;
+
+
+## Exemplos:
+
+```{python}
+#| eval: true
+from datetime import date
+dia_pesquisa = date(2022,7,7)
+r = get_event_track(
+  botKey, 
+  tracking = "Sodexo consulta solicitacao e bloqueio selecao",
+  startDate = dia_pesquisa, endDate = dia_pesquisa
+)
+
+print(r)
+```
+
+
+
+## Como posso utilizar essas funções?
+
+1. Importe essas funções;
+2. Colete a chave de autenticação de seu bot no Blip;
+
+E seja feliz 😎.
+
+
 ## Importando as funções
 
-Adicione o seguinte código ao seu notebook do Databricks:
+Para importar essas funções, adicione o seguinte código ao seu notebook do Databricks:
 
 ```{verbatim}
 %run /Library/APICommands
 ```
 
-Mas antes de utilizar as funções, você precisa coletar a chave de autenticação de seu bot no Blip!
-
 ## Todo acesso precisa ser autenticado!
 
-Todo acesso à Commands API precisa de uma chave de autenticação! Você encontra essa chave de autenticação na página de seu bot no Blip Portal. 
+Você precisa da **chave de autenticação de seu bot** para consultar o Commands API! 
 
-Basta acessar a área de "Configurações -> Informações de conexão", e, copiar o valor do quadro "Cabeçalho de autenticação".
+Acesse a área de "Configurações -> Informações de conexão" na página de seu bot no Blip Portal, e, copie o valor do quadro "Cabeçalho de autenticação".
 
 
 ## Todo acesso precisa ser autenticado!
@@ -64,7 +153,7 @@ Basta acessar a área de "Configurações -> Informações de conexão", e, copi
 
 ## Chave de autenticação
 
-Toda chave de autenticação é iniciada por `"Key "`, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me refereir a essa chave através da variável `botKey`.
+Toda chave de autenticação é iniciada por `"Key "`, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me referir a essa chave através da variável `botKey`.
 
 ```{python}
 #| eval: false
@@ -72,33 +161,16 @@ botKey = 'Key cq936dk_hxdd00_sa...'
 ```
 
 
-## `get_event_track()`
-
-Essa função possui os seguintes argumentos:
-
-- `botKey`: a chave de autenticação;
-- `tracking`: o nome do tracking;
-- `startDate`: a data de início da pesquisa;
-- `endDate`: a data de fim da pesquisa;
-- `take` (**opcional**): quantidade máxima de resultados que você deseja trazer;
-- `action` (**opcional**): a action específica que você deseja pesquisar;
 
 
-## Exemplos:
+## Que tipo de dados você encontra nessa API?
 
-```{python}
-#| eval: true
-from datetime import date
-dia_pesquisa = date(2022,1,11)
-r = get_event_track(
-  botKey, tracking = "Saudacao sodexo selecao",
-  startDate = dia_pesquisa, endDate = dia_pesquisa
-)
+- `/event-track`: registros de trackings;
+- `/contacts`: dados dos usuários;
+- `/analytics/reports/attendants`: dados dos atendentes no BlipDesk;
+- `/analytics/reports/tickets`: dados dos tickets no BlipDesk;
 
-print(r)
-```
-
-
+... você pode conferir a lista completa na [documentação da API](https://docs.blip.ai/?http#analytics)
 
 
 ## Construindo uma requisição
