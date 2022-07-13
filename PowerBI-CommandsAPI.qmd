@@ -10,6 +10,36 @@ execute:
 #| include: false
 exec(open("../../botKey.py").read())
 exec(open("src/APICommands.py").read())
+
+
+
+def get_event_track(
+                     botKey: str, tracking: str,
+                     startDate: datetime.date, endDate: datetime.date,
+                     take = 500, action = None
+                   ) -> pandas.DataFrame:
+                     
+  if action is None:
+    components = tracking
+  else:
+    components = [tracking, action]
+    
+  if action is not None and take > 500:
+    raise ValueError("When you define an action to be searched, the `take` argument can not be greater than 500. If you want use more than 500 in `take`, then, do not specify the `action` argument.")
+                     
+  uri = APICommandsURI('/event-track', components)
+  header = RequestHeader(botKey)
+  query_string = QueryString(startDate = startDate, endDate = endDate, take = take)
+  body = RequestBody(uri, query_string)
+  
+  request = APICommandsRequest(body, header)
+  results = request.to_pandas_dataframe()
+  
+  if action is not None:
+    results = results.drop("extras", axis = 1, errors = 'ignore')
+  
+  return results
+
 ```
 
 
@@ -17,7 +47,12 @@ exec(open("src/APICommands.py").read())
 
 ## O que é o Blip Commands API?
 
-É uma API do Blip que disponibiliza dados de seu contato inteligente **em tempo real**. 
+É uma API que te permite enviar **comandos** para o Blip. 
+
+
+## O que é o Blip Commands API?
+
+Dentre esses comandos disponíveis, podemos coletar dados **em tempo real** de nosso contato inteligente. 
 
 
 ## Consequência
@@ -44,11 +79,11 @@ Como resultado, com o Commands API, nós não precisamos esperar o dia seguinte 
 
 
 
-
 ## Relatórios personalizados do Blip
 
 Vantagens:
 
+- Capaz de entregar dados do dia;
 - Rápido e simples de se configurar;
 
 Desvantagens:
@@ -64,9 +99,9 @@ Desvantagens:
 
 Podemos utilizar o programa/framework de nossa preferência: 
 
-- Power BI
-- `{shiny}` e `{flexdashboard}` (R)
-- `{plotly}` e `{dash}` (Python).
+- Power BI;
+- `{shiny}` e `{flexdashboard}` (R);
+- `{plotly}` e `{dash}` (Python);
 
 <!-- ## Mas como eu posso fornecer esses dados? -->
 
@@ -78,7 +113,14 @@ Podemos utilizar o programa/framework de nossa preferência:
 
 ## Um exemplo prático com Power BI
 
-Como seria exatamente o fluxo de dados com o Commands API?
+Nos próximos slides vamos mostrar como seria o fluxo de trabalho do Power BI com os dados do Commands API.
+
+
+## Passos
+
+- Criar um notebook (em Python) que consulta os dados do Commands API, e, salva esses dados em uma tabela física do Databricks;
+- Puxamos essa tabela para o Power BI, e, desenvolvemos os nossos visuais;
+- Por último, publique o seu Power BI e o seu notebook para serem atualizados de hora em hora;
 
 
 ## Fluxo de dados
@@ -99,7 +141,7 @@ Para facilitar o uso da Commands API, duas funções foram desenvolvidas para os
 
 Essa função possui os seguintes argumentos:
 
-- `botKey`: a chave de autenticação;
+- `botKey`: a chave de autenticação do bot;
 - `tracking`: a *category* do tracking;
 - `startDate`: a data de início da pesquisa;
 - `endDate`: a data de fim da pesquisa;
@@ -113,18 +155,72 @@ Essa função possui os seguintes argumentos:
 #| eval: true
 from datetime import date
 dia_pesquisa = date(2022,7,7)
-r = get_event_track(
+resultado = get_event_track(
   botKey, 
   tracking = "Sodexo consulta solicitacao e bloqueio selecao",
   startDate = dia_pesquisa, endDate = dia_pesquisa
 )
 
-print(r)
+print(resultado)
+```
+
+
+## Uma combinação específica de Category X Action:
+
+```{python}
+resultado = get_event_track(
+  botKey, 
+  tracking = "Sodexo consulta solicitacao e bloqueio selecao",
+  action = 'Bloquear cartao',
+  startDate = '2022-07-07', endDate = '2022-07-08'
+)
+
+print(resultado)
+```
+
+
+## `get_attendants_report()`
+
+Essa função possui os seguintes argumentos:
+
+- `botKey`: a chave de autenticação do bot;
+- `startDate`: a data de início da pesquisa;
+- `endDate`: a data de fim da pesquisa;
+
+
+## Exemplos:
+
+```{python}
+#| eval: false
+from datetime import date
+resultado = get_attendants_report(
+  botKey, 
+  startDate = date(2022,7,5), endDate = date(2022,7,11)
+)
+
+print(resultado)
+```
+
+```
+                                 identity   status  isEnabled  \
+0          Ana.Mor%40ATEND.com.br@blip.ai  Offline      False   
+1  Vitoria.Marques%40ATEND.com.br@blip.ai  Offline      False   
+2         Lara.Biz%40ATEND.com.br@blip.ai  Offline      False   
+
+   openedTickets  closedTickets averageFirstResponseTime   averageWaitTime  \
+0              0             55                 00:01:32          00:02:04   
+1              0             37                 00:03:31          00:04:33   
+2              0              1                 00:00:28          00:14:01   
+
+  averageAttendanceTime averageResponseTime  ticketsCount  
+0              01:15:31    00:02:35.4526912            55  
+1              20:40:05    00:42:44.5839419            37  
+2              02:10:59    00:06:16.2087777             1  
 ```
 
 
 
-## Como posso utilizar essas funções?
+## Como tenho acesso a essas funções?
 
 1. Importe essas funções;
 2. Colete a chave de autenticação de seu bot no Blip;
@@ -153,7 +249,7 @@ Acesse a área de "Configurações -> Informações de conexão" na página de s
 
 ## Chave de autenticação
 
-Toda chave de autenticação é iniciada por `"Key "`, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me referir a essa chave através da variável `botKey`.
+Toda chave de autenticação é iniciada por `"Key "`, seguido de um conjunto aleatório de caracteres.
 
 ```{python}
 #| eval: false
@@ -162,15 +258,38 @@ botKey = 'Key cq936dk_hxdd00_sa...'
 
 
 
+## Dúvidas?
 
-## Que tipo de dados você encontra nessa API?
 
-- `/event-track`: registros de trackings;
+## O futuro
+
+Essa nova biblioteca, foi desenvolvida já com o objetivo de ser facilmente expandida. E qualquer um de vocês podem colaborar com essa expansão;
+
+
+## Hoje temos acesso a apenas 2 recursos
+
+- `get_event_track()`: acessa os dados do recurso (ou *endpoint*) `/event-track`;
+- `get_attendants_report()`: acessa os dados do recurso (ou *endpoint*) `/analytics/reports/attendants`;
+
+
+## Podemos construir funções para outros recursos
+
 - `/contacts`: dados dos usuários;
-- `/analytics/reports/attendants`: dados dos atendentes no BlipDesk;
 - `/analytics/reports/tickets`: dados dos tickets no BlipDesk;
+- `/contexts`: acesso às variáveis de contexto de um usuário;
 
 ... você pode conferir a lista completa na [documentação da API](https://docs.blip.ai/?http#analytics)
+
+
+## Como seria essa expansão?
+
+As funções `get_event_track()` e `get_attendants_report()` funcionam com base em 5 classes: 
+
+- `QueryString`;
+- `RequestHeader`; 
+- `RequestBody`;
+- `APICommandsURI`;
+- `APICommandsRequest`;.
 
 
 ## Construindo uma requisição
@@ -182,7 +301,29 @@ Para acessar os recursos de uma API, você precisa enviar uma requisição HTTP 
 - QueryString;
 
 
-## Construindo uma QueryString
+## Acessando os dados de tickets
+
+```{python}
+dia_pesquisa = date.today()
+
+## Construindo o HEADER:
+header = RequestHeader(botKey)
+
+## Construindo a QUERY STRING:
+query_string = QueryString(startDate = dia_pesquisa, endDate = dia_pesquisa)
+
+## Construindo o BODY:
+uri = APICommandsURI('/analytics/reports/attendants')
+uri.uri = '/analytics/reports/tickets'
+body = RequestBody(uri, query_string)
+
+## Enviando o Request para o Commands API:
+resultado = APICommandsRequest(body, header)
+resultado.to_pandas_dataframe()
+```
+
+
+
 
 
 

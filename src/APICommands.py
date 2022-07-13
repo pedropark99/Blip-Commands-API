@@ -7,9 +7,6 @@ import uuid
 from datetime import date
 
 
-from pandas.core.indexes.datetimes import DatetimeIndex
-
-
 #### UTILS --------------------------------------------
 
 def generate_hash_id() -> str:
@@ -26,7 +23,7 @@ class QueryString:
   params = dict()
   query_string = str()
   
-  __keys_that_need_escape = [
+  __params_that_need_escape = [
     'take'
   ]
   
@@ -35,7 +32,7 @@ class QueryString:
     n_params = len(query_params)
     key_value_pairs = list()
     for key, value in query_params.items():
-      if key in self.__keys_that_need_escape:
+      if key in self.__params_that_need_escape:
         key = f'${key}'
       key_value_pairs.append(f'{key}={value}')
     self.query_string = '&'.join(key_value_pairs)

@@ -377,6 +377,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body>
   <div class="reveal">
@@ -389,7 +392,11 @@
 
 <section id="o-que-é-o-blip-commands-api" class="slide level2">
 <h2>O que é o Blip Commands API?</h2>
-<p>É uma API do Blip que disponibiliza dados de seu contato inteligente <strong>em tempo real</strong>.</p>
+<p>É uma API que te permite enviar <strong>comandos</strong> para o Blip.</p>
+</section>
+<section id="o-que-é-o-blip-commands-api-1" class="slide level2">
+<h2>O que é o Blip Commands API?</h2>
+<p>Dentre esses comandos disponíveis, podemos coletar dados <strong>em tempo real</strong> de nosso contato inteligente.</p>
 </section>
 <section id="consequência" class="slide level2">
 <h2>Consequência</h2>
@@ -412,6 +419,7 @@
 <h2>Relatórios personalizados do Blip</h2>
 <p>Vantagens:</p>
 <ul>
+<li>Capaz de entregar dados do dia;</li>
 <li>Rápido e simples de se configurar;</li>
 </ul>
 <p>Desvantagens:</p>
@@ -428,9 +436,9 @@
 </ul>
 <p>Podemos utilizar o programa/framework de nossa preferência:</p>
 <ul>
-<li>Power BI</li>
-<li><code>{shiny}</code> e <code>{flexdashboard}</code> (R)</li>
-<li><code>{plotly}</code> e <code>{dash}</code> (Python).</li>
+<li>Power BI;</li>
+<li><code>{shiny}</code> e <code>{flexdashboard}</code> (R);</li>
+<li><code>{plotly}</code> e <code>{dash}</code> (Python);</li>
 </ul>
 <!-- ## Mas como eu posso fornecer esses dados? -->
 <!-- - Você pode orientar o cliente a como utilizar o Commands API; -->
@@ -440,7 +448,15 @@
 </section>
 <section id="um-exemplo-prático-com-power-bi" class="slide level2">
 <h2>Um exemplo prático com Power BI</h2>
-<p>Como seria exatamente o fluxo de dados com o Commands API?</p>
+<p>Nos próximos slides vamos mostrar como seria o fluxo de trabalho do Power BI com os dados do Commands API.</p>
+</section>
+<section id="passos" class="slide level2">
+<h2>Passos</h2>
+<ul>
+<li>Criar um notebook (em Python) que consulta os dados do Commands API, e, salva esses dados em uma tabela física do Databricks;</li>
+<li>Puxamos essa tabela para o Power BI, e, desenvolvemos os nossos visuais;</li>
+<li>Por último, publique o seu Power BI e o seu notebook para serem atualizados de hora em hora;</li>
+</ul>
 </section>
 <section id="fluxo-de-dados" class="slide level2">
 <h2>Fluxo de dados</h2>
@@ -454,38 +470,11 @@
 <li><code>get_attendants_report()</code>;</li>
 </ul>
 </section>
-<section id="como-posso-utilizar-essas-funções" class="slide level2">
-<h2>Como posso utilizar essas funções?</h2>
-<ol type="1">
-<li>Importe essas funções;</li>
-<li>Colete a chave de autenticação de seu bot no Blip;</li>
-</ol>
-<p>E seja feliz 😎.</p>
-</section>
-<section id="importando-as-funções" class="slide level2">
-<h2>Importando as funções</h2>
-<p>Para importar essas funções, adicione o seguinte código ao seu notebook do Databricks:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>%run /Library/APICommands</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="todo-acesso-precisa-ser-autenticado" class="slide level2">
-<h2>Todo acesso precisa ser autenticado!</h2>
-<p>Você precisa da <strong>chave de autenticação de seu bot</strong> para consultar o Commands API!</p>
-<p>Acesse a área de “Configurações -&gt; Informações de conexão” na página de seu bot no Blip Portal, e, copie o valor do quadro “Cabeçalho de autenticação”.</p>
-</section>
-<section id="todo-acesso-precisa-ser-autenticado-1" class="slide level2">
-<h2>Todo acesso precisa ser autenticado!</h2>
-
-<img data-src="Figuras/info-conexao.png" class="r-stretch"></section>
-<section id="chave-de-autenticação" class="slide level2">
-<h2>Chave de autenticação</h2>
-<p>Toda chave de autenticação é iniciada por <code>"Key "</code>, seguido de um conjunto aleatório de caracteres. Nos próximos slides, vou me referir a essa chave através da variável <code>botKey</code>.</p>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>botKey <span class="op">=</span> <span class="st">'Key cq936dk_hxdd00_sa...'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
 <section id="get_event_track" class="slide level2">
 <h2><code>get_event_track()</code></h2>
 <p>Essa função possui os seguintes argumentos:</p>
 <ul>
-<li><code>botKey</code>: a chave de autenticação;</li>
+<li><code>botKey</code>: a chave de autenticação do bot;</li>
 <li><code>tracking</code>: a <em>category</em> do tracking;</li>
 <li><code>startDate</code>: a data de início da pesquisa;</li>
 <li><code>endDate</code>: a data de fim da pesquisa;</li>
@@ -495,16 +484,16 @@
 </section>
 <section id="exemplos" class="slide level2">
 <h2>Exemplos:</h2>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
-<span id="cb3-2"><a href="#cb3-2"></a>dia_pesquisa <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>r <span class="op">=</span> get_event_track(</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  botKey, </span>
-<span id="cb3-5"><a href="#cb3-5"></a>  tracking <span class="op">=</span> <span class="st">"Sodexo consulta solicitacao e bloqueio selecao"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6"></a>  startDate <span class="op">=</span> dia_pesquisa, endDate <span class="op">=</span> dia_pesquisa</span>
-<span id="cb3-7"><a href="#cb3-7"></a>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="bu">print</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
+<span id="cb1-2"><a href="#cb1-2"></a>dia_pesquisa <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>resultado <span class="op">=</span> get_event_track(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  botKey, </span>
+<span id="cb1-5"><a href="#cb1-5"></a>  tracking <span class="op">=</span> <span class="st">"Sodexo consulta solicitacao e bloqueio selecao"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  startDate <span class="op">=</span> dia_pesquisa, endDate <span class="op">=</span> dia_pesquisa</span>
+<span id="cb1-7"><a href="#cb1-7"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="bu">print</span>(resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                storageDate                                        category  \
 0  2022-07-07T03:00:00.000Z  Sodexo consulta solicitacao e bloqueio selecao   
@@ -520,15 +509,157 @@
 </div>
 </div>
 </section>
-<section id="que-tipo-de-dados-você-encontra-nessa-api" class="slide level2">
-<h2>Que tipo de dados você encontra nessa API?</h2>
+<section id="uma-combinação-específica-de-category-x-action" class="slide level2">
+<h2>Uma combinação específica de Category X Action:</h2>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>resultado <span class="op">=</span> get_event_track(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  botKey, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>  tracking <span class="op">=</span> <span class="st">"Sodexo consulta solicitacao e bloqueio selecao"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  action <span class="op">=</span> <span class="st">'Bloquear cartao'</span>,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  startDate <span class="op">=</span> <span class="st">'2022-07-07'</span>, endDate <span class="op">=</span> <span class="st">'2022-07-08'</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="bu">print</span>(resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      ownerIdentity               storageDate  \
+0   sodexowppbeta2router@msging.net  2022-07-07T17:42:08.690Z   
+1   sodexowppbeta2router@msging.net  2022-07-07T17:52:44.660Z   
+2   sodexowppbeta2router@msging.net  2022-07-07T17:54:40.990Z   
+3   sodexowppbeta2router@msging.net  2022-07-07T17:57:07.820Z   
+4   sodexowppbeta2router@msging.net  2022-07-07T18:01:30.860Z   
+5   sodexowppbeta2router@msging.net  2022-07-07T18:07:22.200Z   
+6   sodexowppbeta2router@msging.net  2022-07-07T18:09:04.590Z   
+7   sodexowppbeta2router@msging.net  2022-07-07T18:09:36.960Z   
+8   sodexowppbeta2router@msging.net  2022-07-07T18:10:31.680Z   
+9   sodexowppbeta2router@msging.net  2022-07-07T18:35:38.970Z   
+10  sodexowppbeta2router@msging.net  2022-07-07T18:52:09.020Z   
+11  sodexowppbeta2router@msging.net  2022-07-07T18:56:47.480Z   
+12  sodexowppbeta2router@msging.net  2022-07-07T19:05:06.920Z   
+13  sodexowppbeta2router@msging.net  2022-07-07T19:28:52.340Z   
+14  sodexowppbeta2router@msging.net  2022-07-07T19:36:02.290Z   
+15  sodexowppbeta2router@msging.net  2022-07-07T19:45:55.560Z   
+16  sodexowppbeta2router@msging.net  2022-07-07T19:52:12.190Z   
+17  sodexowppbeta2router@msging.net  2022-07-07T20:21:16.940Z   
+18  sodexowppbeta2router@msging.net  2022-07-07T20:36:19.680Z   
+19  sodexowppbeta2router@msging.net  2022-07-07T20:37:32.120Z   
+
+                                          category           action  
+0   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+1   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+2   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+3   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+4   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+5   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+6   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+7   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+8   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+9   Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+10  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+11  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+12  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+13  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+14  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+15  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+16  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+17  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+18  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  
+19  Sodexo consulta solicitacao e bloqueio selecao  Bloquear cartao  </code></pre>
+</div>
+</div>
+</section>
+<section id="get_attendants_report" class="slide level2">
+<h2><code>get_attendants_report()</code></h2>
+<p>Essa função possui os seguintes argumentos:</p>
 <ul>
-<li><code>/event-track</code>: registros de trackings;</li>
+<li><code>botKey</code>: a chave de autenticação do bot;</li>
+<li><code>startDate</code>: a data de início da pesquisa;</li>
+<li><code>endDate</code>: a data de fim da pesquisa;</li>
+</ul>
+</section>
+<section id="exemplos-1" class="slide level2">
+<h2>Exemplos:</h2>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
+<span id="cb5-2"><a href="#cb5-2"></a>resultado <span class="op">=</span> get_attendants_report(</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  botKey, </span>
+<span id="cb5-4"><a href="#cb5-4"></a>  startDate <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">7</span>,<span class="dv">5</span>), endDate <span class="op">=</span> date(<span class="dv">2022</span>,<span class="dv">7</span>,<span class="dv">11</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="bu">print</span>(resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>                                 identity   status  isEnabled  \
+0          Ana.Mor%40ATEND.com.br@blip.ai  Offline      False   
+1  Vitoria.Marques%40ATEND.com.br@blip.ai  Offline      False   
+2         Lara.Biz%40ATEND.com.br@blip.ai  Offline      False   
+
+   openedTickets  closedTickets averageFirstResponseTime   averageWaitTime  \
+0              0             55                 00:01:32          00:02:04   
+1              0             37                 00:03:31          00:04:33   
+2              0              1                 00:00:28          00:14:01   
+
+  averageAttendanceTime averageResponseTime  ticketsCount  
+0              01:15:31    00:02:35.4526912            55  
+1              20:40:05    00:42:44.5839419            37  
+2              02:10:59    00:06:16.2087777             1  </code></pre>
+</section>
+<section id="como-tenho-acesso-a-essas-funções" class="slide level2">
+<h2>Como tenho acesso a essas funções?</h2>
+<ol type="1">
+<li>Importe essas funções;</li>
+<li>Colete a chave de autenticação de seu bot no Blip;</li>
+</ol>
+<p>E seja feliz 😎.</p>
+</section>
+<section id="importando-as-funções" class="slide level2">
+<h2>Importando as funções</h2>
+<p>Para importar essas funções, adicione o seguinte código ao seu notebook do Databricks:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>%run /Library/APICommands</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="todo-acesso-precisa-ser-autenticado" class="slide level2">
+<h2>Todo acesso precisa ser autenticado!</h2>
+<p>Você precisa da <strong>chave de autenticação de seu bot</strong> para consultar o Commands API!</p>
+<p>Acesse a área de “Configurações -&gt; Informações de conexão” na página de seu bot no Blip Portal, e, copie o valor do quadro “Cabeçalho de autenticação”.</p>
+</section>
+<section id="todo-acesso-precisa-ser-autenticado-1" class="slide level2">
+<h2>Todo acesso precisa ser autenticado!</h2>
+
+<img data-src="Figuras/info-conexao.png" class="r-stretch"></section>
+<section id="chave-de-autenticação" class="slide level2">
+<h2>Chave de autenticação</h2>
+<p>Toda chave de autenticação é iniciada por <code>"Key "</code>, seguido de um conjunto aleatório de caracteres.</p>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>botKey <span class="op">=</span> <span class="st">'Key cq936dk_hxdd00_sa...'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dúvidas" class="slide level2">
+<h2>Dúvidas?</h2>
+</section>
+<section id="o-futuro" class="slide level2">
+<h2>O futuro</h2>
+<p>Essa nova biblioteca, foi desenvolvida já com o objetivo de ser facilmente expandida. E qualquer um de vocês podem colaborar com essa expansão;</p>
+</section>
+<section id="hoje-temos-acesso-a-apenas-2-recursos" class="slide level2">
+<h2>Hoje temos acesso a apenas 2 recursos</h2>
+<ul>
+<li><code>get_event_track()</code>: acessa os dados do recurso (ou <em>endpoint</em>) <code>/event-track</code>;</li>
+<li><code>get_attendants_report()</code>: acessa os dados do recurso (ou <em>endpoint</em>) <code>/analytics/reports/attendants</code>;</li>
+</ul>
+</section>
+<section id="podemos-construir-funções-para-outros-recursos" class="slide level2">
+<h2>Podemos construir funções para outros recursos</h2>
+<ul>
 <li><code>/contacts</code>: dados dos usuários;</li>
-<li><code>/analytics/reports/attendants</code>: dados dos atendentes no BlipDesk;</li>
 <li><code>/analytics/reports/tickets</code>: dados dos tickets no BlipDesk;</li>
+<li><code>/contexts</code>: acesso às variáveis de contexto de um usuário;</li>
 </ul>
 <p>… você pode conferir a lista completa na <a href="https://docs.blip.ai/?http#analytics">documentação da API</a></p>
+</section>
+<section id="como-seria-essa-expansão" class="slide level2">
+<h2>Como seria essa expansão?</h2>
+<p>As funções <code>get_event_track()</code> e <code>get_attendants_report()</code> funcionam com base em 5 classes:</p>
+<ul>
+<li><code>QueryString</code>;</li>
+<li><code>RequestHeader</code>;</li>
+<li><code>RequestBody</code>;</li>
+<li><code>APICommandsURI</code>;</li>
+<li><code>APICommandsRequest</code>;.</li>
+</ul>
 </section>
 <section id="construindo-uma-requisição" class="slide level2">
 <h2>Construindo uma requisição</h2>
@@ -539,8 +670,72 @@
 <li>QueryString;</li>
 </ul>
 </section>
-<section id="construindo-uma-querystring" class="slide level2">
-<h2>Construindo uma QueryString</h2>
+<section id="acessando-os-dados-de-tickets" class="slide level2">
+<h2>Acessando os dados de tickets</h2>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>dia_pesquisa <span class="op">=</span> date.today()</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">## Construindo o HEADER:</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>header <span class="op">=</span> RequestHeader(botKey)</span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co">## Construindo a QUERY STRING:</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>query_string <span class="op">=</span> QueryString(startDate <span class="op">=</span> dia_pesquisa, endDate <span class="op">=</span> dia_pesquisa)</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">## Construindo o BODY:</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>uri <span class="op">=</span> APICommandsURI(<span class="st">'/analytics/reports/attendants'</span>)</span>
+<span id="cb9-11"><a href="#cb9-11"></a>uri.uri <span class="op">=</span> <span class="st">'/analytics/reports/tickets'</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>body <span class="op">=</span> RequestBody(uri, query_string)</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">## Enviando o Request para o Commands API:</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a>resultado <span class="op">=</span> APICommandsRequest(body, header)</span>
+<span id="cb9-16"><a href="#cb9-16"></a>resultado.to_pandas_dataframe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>waiting</th>
+      <th>open</th>
+      <th>closed</th>
+      <th>closedAttendant</th>
+      <th>closedClient</th>
+      <th>transferred</th>
+      <th>missed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-07-12T03:00:00.000Z</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
 <div class="footer footer-default">
 
 </div>
